@@ -6,6 +6,7 @@ import { isTest } from './config/env.js';
 import { logger } from './logger/logger.js';
 import { requestLogger } from './middlewares/requestLogger.middleware.js';
 import { healthRouter } from './routes/health.routes.js';
+import { router as v1Router } from './routes/v1/index.js';
 
 
 export function createApp(): Express {
@@ -21,6 +22,7 @@ export function createApp(): Express {
   app.use(requestLogger);
 
   app.use(healthRouter);
+  app.use('/v1', v1Router);
 
   app.use((_req: Request, res: Response) => {
     res.status(404).json({ error: 'Not Found' });

@@ -1,6 +1,7 @@
 import { DataTypes, Model, type InferAttributes, type InferCreationAttributes, type CreationOptional } from 'sequelize';
 
 import { sequelize } from '../config/sequelize.js';
+import { Permissions } from './permissions.model.js';
 
 
 export class UserPermissions
@@ -56,3 +57,6 @@ UserPermissions.init(
     updatedAt: false,
   },
 );
+
+UserPermissions.belongsTo(Permissions, { foreignKey: 'permission_id', as: 'permission' });
+Permissions.hasMany(UserPermissions, { foreignKey: 'permission_id', as: 'user_permissions' });

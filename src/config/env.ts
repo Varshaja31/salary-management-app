@@ -19,6 +19,10 @@ const envSchema = z.object({
     .union([z.boolean(), z.string()])
     .transform((v) => (typeof v === 'string' ? v === 'true' : v))
     .default(false),
+
+  // Auth
+  JWT_SECRET: z.string().default('dev-secret-change-me'),
+  JWT_EXPIRES_IN: z.string().default('24h'),
 });
 
 export type Env = z.infer<typeof envSchema>;

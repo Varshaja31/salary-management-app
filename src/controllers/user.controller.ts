@@ -1,4 +1,0 @@
-export function listUsers() {
-  return;
-}
-
