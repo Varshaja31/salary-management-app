@@ -19,7 +19,7 @@ cp .env.example .env
 npm run dev
 ```
 
-Server starts on `http://0.0.0.0:3000`.
+Server starts on `http://0.0.0.0:3001`.
 
 ## Scripts
 

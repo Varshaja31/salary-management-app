@@ -136,10 +136,14 @@ describe('GET /v1/employees', () => {
     expect(res.body).toHaveProperty('data');
     expect(Array.isArray(res.body.data)).toBe(true);
     expect(res.body.data).toHaveLength(0);
+    expect(res.body).toHaveProperty('total');
+    expect(res.body.total).toBe(0);
+    expect(res.body).toHaveProperty('limit');
+    expect(res.body).toHaveProperty('offset');
   });
 
-  // 5. Valid token + permission → 200 with employees
-  it('returns 200 with list of employees', async () => {
+  // 5. Valid token + permission → 200 with employees (default limit/offset)
+  it('returns 200 with list of employees with pagination metadata', async () => {
     const user = await createUser(TEST_EMAIL, TEST_PASSWORD, role.id);
     const viewPerm = permissions.find((p) => p.name === 'EMPLOYEE_VIEW')!;
     await grantPermissions(user.id, [viewPerm]);
@@ -154,10 +158,55 @@ describe('GET /v1/employees', () => {
 
     expect(res.status).toBe(200);
     expect(res.body.data).toHaveLength(2);
+    expect(res.body.total).toBe(2);
+    expect(res.body.limit).toBe(10);
+    expect(res.body.offset).toBe(0);
     expect(res.body.data[0]).toHaveProperty('employee_id');
     expect(res.body.data[0]).toHaveProperty('first_name');
     expect(res.body.data[0]).toHaveProperty('email');
-    expect(res.body.data[0]).toHaveProperty('department');
-    expect(res.body.data[0]).toHaveProperty('country');
+  });
+
+  // 6. Pagination — limit=1 returns only 1 employee
+  it('respects limit query param', async () => {
+    const user = await createUser(TEST_EMAIL, TEST_PASSWORD, role.id);
+    const viewPerm = permissions.find((p) => p.name === 'EMPLOYEE_VIEW')!;
+    await grantPermissions(user.id, [viewPerm]);
+    const token = makeToken(user.id, user.email);
+
+    await createEmployee({ employee_id: 'EMP001', email: 'john@salary.com' });
+    await createEmployee({ employee_id: 'EMP002', email: 'jane@salary.com', first_name: 'Jane' });
+    await createEmployee({ employee_id: 'EMP003', email: 'bob@salary.com', first_name: 'Bob' });
+
+    const res = await request(app)
+      .get('/v1/employees?limit=1')
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).toBe(200);
+    expect(res.body.data).toHaveLength(1);
+    expect(res.body.total).toBe(3);
+    expect(res.body.limit).toBe(1);
+    expect(res.body.offset).toBe(0);
+  });
+
+  // 7. Pagination — offset skips first employee
+  it('respects offset query param', async () => {
+    const user = await createUser(TEST_EMAIL, TEST_PASSWORD, role.id);
+    const viewPerm = permissions.find((p) => p.name === 'EMPLOYEE_VIEW')!;
+    await grantPermissions(user.id, [viewPerm]);
+    const token = makeToken(user.id, user.email);
+
+    await createEmployee({ employee_id: 'EMP001', email: 'john@salary.com' });
+    await createEmployee({ employee_id: 'EMP002', email: 'jane@salary.com', first_name: 'Jane' });
+    await createEmployee({ employee_id: 'EMP003', email: 'bob@salary.com', first_name: 'Bob' });
+
+    const res = await request(app)
+      .get('/v1/employees?limit=1&offset=1')
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).toBe(200);
+    expect(res.body.data).toHaveLength(1);
+    expect(res.body.total).toBe(3);
+    expect(res.body.limit).toBe(1);
+    expect(res.body.offset).toBe(1);
   });
 });

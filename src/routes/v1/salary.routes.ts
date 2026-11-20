@@ -3,10 +3,11 @@ import * as salaryController from '../../controllers/salary.controller.js';
 import { authMiddleware } from '../../middlewares/auth.middleware.js';
 import { checkPermission } from '../../middlewares/permission.middleware.js';
 import { validate } from '../../middlewares/validate.middleware.js';
-import { salaryAssignmentSchema, salaryCalculationSchema } from '../../validations/salary.validation.js';
+import { salaryAssignmentSchema, salaryUpdateSchema } from '../../validations/salary.validation.js';
 
 const salaryRouter = Router();
 
+// List all templates
 salaryRouter.get(
   '/templates',
   authMiddleware,
@@ -14,6 +15,7 @@ salaryRouter.get(
   salaryController.listTemplates,
 );
 
+// View a single template with its components
 salaryRouter.get(
   '/templates/:id',
   authMiddleware,
@@ -21,12 +23,28 @@ salaryRouter.get(
   salaryController.viewTemplate,
 );
 
-salaryRouter.post(
-  '/calculate',
-  validate(salaryCalculationSchema),
+// List all salary assignments with pagination
+salaryRouter.get(
+  '/',
   authMiddleware,
   checkPermission(['SALARY_VIEW']),
-  salaryController.calculate,
+  salaryController.list,
+);
+
+// View a single salary assignment
+salaryRouter.get(
+  '/:id',
+  authMiddleware,
+  checkPermission(['SALARY_VIEW']),
+  salaryController.view,
+);
+
+salaryRouter.put(
+  '/:id',
+  validate(salaryUpdateSchema),
+  authMiddleware,
+  checkPermission(['SALARY_UPDATE']),
+  salaryController.update,
 );
 
 salaryRouter.post(

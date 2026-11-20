@@ -14,9 +14,6 @@ export class EmployeeError extends Error {
 const findOne = async (query: Record<string, unknown>) =>
   Employees.findOne({ where: { ...query } });
 
-const findAll = async (query: Record<string, unknown> = {}) =>
-  Employees.findAll({ where: { ...query } });
-
 const create = async (data: Partial<InferAttributes<Employees>>) => Employees.create(data as never);
 
 const update = async (
@@ -64,8 +61,20 @@ export async function createEmployee(data: {
   return employee;
 }
 
-export async function listEmployees() {
-  return findAll();
+export async function listEmployees(options?: { limit?: number; offset?: number }) {
+  const limit = options?.limit ?? 10;
+  const offset = options?.offset ?? 0;
+  const { rows, count } = await Employees.findAndCountAll({
+    limit,
+    offset,
+    order: [['createdAt', 'DESC']],
+  });
+  return {
+    data: rows,
+    total: count,
+    limit,
+    offset,
+  };
 }
 
 export async function getEmployeeById(id: string) {

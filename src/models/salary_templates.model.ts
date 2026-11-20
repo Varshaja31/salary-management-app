@@ -40,14 +40,14 @@ SalaryTemplates.init(
       },
     },
     country: {
-      type: DataTypes.ENUM('IND', 'USA'),
+      type: DataTypes.ENUM('IND', 'USA', 'DUBAI'),
       allowNull: false,
       validate: {
         notEmpty: true,
       },
     },
     currency: {
-      type: DataTypes.ENUM('USD', 'INR'),
+      type: DataTypes.ENUM('USD', 'INR', 'AED'),
       allowNull: false,
       validate: {
         notEmpty: true,

@@ -19,10 +19,12 @@ const create = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-const list = async (_req: Request, res: Response): Promise<void> => {
+const list = async (req: Request, res: Response): Promise<void> => {
   try {
-    const employees = await employeeService.listEmployees();
-    res.status(200).json({ data: employees });
+    const limit = req.query.limit ? Number(req.query.limit) : 10;
+    const offset = req.query.offset ? Number(req.query.offset) : 0;
+    const result = await employeeService.listEmployees({ limit, offset });
+    res.status(200).json(result);
   } catch (error) {
     if (error instanceof EmployeeError) {
       res.status(error.statusCode).json({ error: error.message });

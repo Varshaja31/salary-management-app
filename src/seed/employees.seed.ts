@@ -63,6 +63,7 @@ export async function seedEmployees(): Promise<void> {
   if (await Employees.count() > 0) return;
 
   const rows: Array<{
+    employee_id: string;
     first_name: string;
     last_name: string;
     email: string;
@@ -92,6 +93,7 @@ export async function seedEmployees(): Promise<void> {
     const joinedDate = randomDateBetween(new Date(2015, 0, 1), new Date(2025, 10, 30));
 
     rows.push({
+      employee_id: `EMP${String(i + 1).padStart(5, '0')}`,
       first_name: firstName,
       last_name: lastName,
       email,
