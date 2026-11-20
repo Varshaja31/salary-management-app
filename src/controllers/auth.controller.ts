@@ -1,5 +1,4 @@
 import type { Request, Response } from 'express';
-
 import * as authService from '../services/auth.service.js';
 import { LoginError } from '../services/auth.service.js';
 

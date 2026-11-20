@@ -9,6 +9,7 @@ export class Employees
   implements InferAttributes<Employees>
 {
   declare id: CreationOptional<string>;
+  declare employee_id: string;
   declare first_name: string;
   declare last_name: string;
   declare email: string;
@@ -29,6 +30,11 @@ Employees.init(
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
       allowNull: false,
+    },
+    employee_id: {
+      type: DataTypes.STRING(150),
+      allowNull: false,
+      unique: true,
     },
     first_name: {
       type: DataTypes.STRING(100),
