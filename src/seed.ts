@@ -6,7 +6,6 @@ import { seedRoles } from './seed/roles.seed.js';
 import { seedEmployees } from './seed/employees.seed.js';
 import { seedSalaryComponents } from './seed/salary_components.seed.js';
 import { seedSalaryTemplateComponents } from './seed/salary_template_components.seed.js';
-import { seedSalaryStructures } from './seed/salary_structures.seed.js';
 import { seedSalaryTemplates } from './seed/salary_templates.seed.js';
 import { seedInitialUser } from './seed/users.seed.js';
 
@@ -40,9 +39,6 @@ async function run(): Promise<void> {
 
     await seedSalaryTemplateComponents();
     logger.info('Salary template components seeded');
-
-    await seedSalaryStructures();
-    logger.info('Salary structures seeded');
 
     await seedEmployees();
     logger.info('Employees seeded');

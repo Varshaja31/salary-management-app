@@ -31,6 +31,7 @@ const SALARY_COMPONENT_SEEDS = [
   { code: 'FUEL_ALLOWANCE', description: 'Allowance for fuel expenses', calculation_type: 'ALLOWANCE' },
   { code: 'DRIVER_ALLOWANCE', description: 'Allowance for driver salary', calculation_type: 'ALLOWANCE' },
   { code: 'SPECIAL_ALLOWANCE', description: 'Miscellaneous special allowance', calculation_type: 'ALLOWANCE' },
+  { code: 'OTHER_ALLOWANCE', description: 'Other miscellaneous allowances', calculation_type: 'ALLOWANCE' },
 
   // BONUSES
   { code: 'PERFORMANCE_BONUS', description: 'Bonus based on performance appraisal', calculation_type: 'BONUS' },
@@ -61,6 +62,7 @@ const SALARY_COMPONENT_SEEDS = [
   { code: 'EMPLOYER_NPS', description: 'Employer contribution to National Pension System', calculation_type: 'EMPLOYER_CONTRIBUTION' },
   { code: 'EMPLOYER_INSURANCE', description: 'Employer-paid insurance premium', calculation_type: 'EMPLOYER_CONTRIBUTION' },
   { code: 'EMPLOYER_HEALTH_INSURANCE', description: 'Employer-paid health insurance premium', calculation_type: 'EMPLOYER_CONTRIBUTION' },
+  { code: 'TERM_INSURANCE', description: 'Term insurance premium paid by employer', calculation_type: 'EMPLOYER_CONTRIBUTION' },
   { code: 'GRATUITY', description: 'Gratuity payable by the employer', calculation_type: 'EMPLOYER_CONTRIBUTION' },
   { code: 'SUPERANNUATION', description: 'Employer contribution to superannuation fund', calculation_type: 'EMPLOYER_CONTRIBUTION' },
 

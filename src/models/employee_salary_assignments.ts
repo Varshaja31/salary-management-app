@@ -45,7 +45,7 @@ EmployeeSalaryAssignments.init(
         notEmpty: true,
       },
       references: {
-        model: 'salary_structures',
+        model: 'salary_templates',
         key: 'id',
       },
     },

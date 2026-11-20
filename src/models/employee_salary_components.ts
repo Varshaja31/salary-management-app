@@ -10,7 +10,7 @@ export class EmployeeSalaryComponents
   declare id: CreationOptional<string>;
   declare salary_assignment_id: string;
   declare component_id: string;
-  declare amount: string;
+  declare amount: number;
   declare createdAt: CreationOptional<Date>;
 }
 
