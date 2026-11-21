@@ -23,6 +23,9 @@ const envSchema = z.object({
   // Auth
   JWT_SECRET: z.string().default('dev-secret-change-me'),
   JWT_EXPIRES_IN: z.string().default('24h'),
+
+  // AI chat (text-to-SQL)
+  GEMINI_API_KEY: z.string().default(''),
 });
 
 export type Env = z.infer<typeof envSchema>;
